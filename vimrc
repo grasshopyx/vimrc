@@ -16,6 +16,9 @@ Plugin 'gmarik/Vundle.vim'
 "Plugin 'tpope/vim-fugitive'
 Plugin 'Lokaltog/powerline'
 Plugin 'tpope/vim-commentary'
+" also for vim-markdown
+Plugin 'godlygeek/tabular' 
+Plugin 'plasticboy/vim-markdown'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'The-NERD-tree'
@@ -25,6 +28,7 @@ Plugin 'bufexplorer.zip'
 Plugin 'delimitMate.vim'
 Plugin 'winmanager'
 Plugin 'minibufexplorerpp'
+
 "Plugin 'L9'
 " Git plugin not hosted on GitHub
 "Plugin 'git://git.wincent.com/command-t.git'
@@ -71,7 +75,11 @@ set hls is
 colorscheme koehler
 
 " 
-nnoremap <f8> :!ctags -R<CR>
+nnoremap <f10> :!ctags -R<CR>
+nnoremap <f7> :NERDTreeToggle<CR>
+nnoremap <f8> :Tagbar<CR>
+nnoremap <f9> :make<cr>
+
 
 " Automatically Execute ctags Each Time a File is Saved. It is not so helpful.
 " autocmd BufWritePost * call system("ctags -R")
@@ -86,6 +94,22 @@ let g:miniBufExplMapCTabSwitchBufs = 1
 " c-hjkl
 let g:miniBufExplMapWindowNavVim = 1
 " }
+
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+
+" I don't know why the [count]]c doesn't work
+nnoremap <silent> co :cw<CR>
+nnoremap <silent> [c :cprevious<CR>
+nnoremap <silent> ]c :cnext<CR>
+nnoremap <silent> [C :cfirst<CR>
+nnoremap <silent> ]C :clast<CR>
+
+" for vim-markdown
+" Set Initial Foldlevel
+let g:vim_markdown_initial_foldlevel=1
 
 " for Powerline
 "set laststatus=2
@@ -107,3 +131,4 @@ let g:winManagerWidth = 30
 nmap wm :WMToggle<cr>
 let g:AutoOpenWinManager = 1
 " }
+
