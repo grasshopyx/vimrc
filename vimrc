@@ -13,12 +13,31 @@ Plugin 'gmarik/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-"Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 Plugin 'Lokaltog/powerline'
 Plugin 'tpope/vim-commentary'
 " also for vim-markdown
 Plugin 'godlygeek/tabular' 
 Plugin 'plasticboy/vim-markdown'
+"{ required for viki, sure
+Plugin 'tomtom/viki_vim'
+Plugin 'tomtom/tlib_vim'
+"}
+Plugin 'grasshopyx/Capitalize'
+Plugin 'sukima/xmledit'	" it's very strange that xml will complete the
+"> automatically when delimitMate.vim installed
+"Plugin 'grasshopyx/xmlheader'
+Plugin 'jcf/vim-latex'
+Plugin 'keflavich/macvim-skim'
+
+Plugin  'klen/python-mode'
+
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'The-NERD-tree'
@@ -28,6 +47,11 @@ Plugin 'bufexplorer.zip'
 Plugin 'delimitMate.vim'
 Plugin 'winmanager'
 Plugin 'minibufexplorerpp'
+"{ for viki, not sure
+Plugin 'multvals.vim'
+Plugin 'genutils'
+"Plugin 'VikiDeplate'
+"}
 
 "Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -56,8 +80,15 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 syntax on
-set nu!
+set nu
 set history=50 " default = 20, set history? to show" futile, why?
+
+" { some languages set these indents
+" indent a particular line and want the lines following it to be also indented to the same level
+set autoindent
+" start a new block of statements and want the next line to be automatically indented to the next level
+set smartindent
+" }
 
 " In addition to the <Up> and <Down> keys, we can also use the <C-p> and <C-n> chords to go backward and forward through our command history. The advantage of using these mappings is that we don’t need to move our hands from the home row to use them. But there’s a disadvantage to the <C-p> and <C-n> commands: unlike <Up> and <Down>, they don’t filter the command history.
 " We can get the best of both by creating the following custom mappings:
@@ -72,7 +103,11 @@ set hls is
 " }
 "
 " for colorscheme{
-colorscheme koehler
+if has("gui_running")
+	colorscheme koehler
+else
+	colorscheme default
+endif
 
 " 
 nnoremap <f10> :!ctags -R<CR>
@@ -80,6 +115,16 @@ nnoremap <f7> :NERDTreeToggle<CR>
 nnoremap <f8> :Tagbar<CR>
 nnoremap <f9> :make<cr>
 
+" it doesn't work
+"nnoremap <c-1> :b1<cr>
+"nnoremap <c-2> :b2<cr>
+"nnoremap <c-3> :b3<cr>
+"nnoremap <c-4> :b4<cr>
+"nnoremap <c-5> :b5<cr>
+"nnoremap <c-6> :b6<cr>
+"nnoremap <c-7> :b7<cr>
+"nnoremap <c-8> :b8<cr>
+"nnoremap <c-9> :b9<cr>
 
 " Automatically Execute ctags Each Time a File is Saved. It is not so helpful.
 " autocmd BufWritePost * call system("ctags -R")
@@ -111,6 +156,37 @@ nnoremap <silent> ]C :clast<CR>
 " Set Initial Foldlevel
 let g:vim_markdown_initial_foldlevel=1
 
+
+" Status line
+set laststatus=2
+set statusline=
+set statusline+=%-3.3n\
+" buffer number
+set statusline+=%f\
+" filename
+set statusline+=%h%m%r%w " status flags
+set statusline+=\[%{strlen(&ft)?&ft:'none'}] " file type
+set statusline+=%=
+" right align remainder
+set statusline+=0x%-8B
+" character value
+set statusline+=%-14(%l,%c%V%)
+" line, character
+set statusline+=%<%P
+" file position
+
+" Show line number, cursor position.
+set ruler
+
+" Tabs should be converted to a group of 4 spaces.
+" This is the official Python convention 
+" (http://www.python.org/dev/peps/pep-0008/) 
+" I didn't find a good reason to not use it everywhere.
+set shiftwidth=4 
+set tabstop=4 
+set expandtab 
+set smarttab
+
 " for Powerline
 "set laststatus=2
 "set t_Co=256
@@ -120,15 +196,38 @@ let g:vim_markdown_initial_foldlevel=1
 "
 "powerline{
 "set guifont=PowerlineSymbols\ for\ Powerline
-set nocompatible
-set laststatus=2
-set t_Co=256
-let g:Powerline_symbols = 'fancy'
+"set nocompatible
+"set laststatus=2
+"set t_Co=256
+"let g:Powerline_symbols = 'fancy'
 "}
 " for winmanager{
-let g:winManagerWindowLayout = "FileExplorer"
-let g:winManagerWidth = 30
-nmap wm :WMToggle<cr>
-let g:AutoOpenWinManager = 1
+"let g:winManagerWindowLayout = "FileExplorer"
+"let g:winManagerWidth = 30
+"nmap wm :WMToggle<cr>
+"let g:AutoOpenWinManager = 1
 " }
 
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+" I think it fix me a big problem.
+let g:tex_flavor='latex'
+
+let g:macvim_skim_app_path='/Applications/Skim.app'
+
+set iskeyword+=:
+
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
