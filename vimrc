@@ -28,7 +28,7 @@ Plugin 'sukima/xmledit'	" it's very strange that xml will complete the
 "> automatically when delimitMate.vim installed
 "Plugin 'grasshopyx/xmlheader'
 Plugin 'jcf/vim-latex'
-Plugin 'keflavich/macvim-skim'
+Plugin 'grasshopyx/macvim-skim'
 
 " Plugin  'klen/python-mode'
 
