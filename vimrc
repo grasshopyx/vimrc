@@ -43,6 +43,7 @@ Plugin 'honza/vim-snippets'
 
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'Shougo/neocomplete.vim'
+Plugin 'Shougo/vimproc'
 Plugin 'Shougo/vimshell.vim'
 Plugin 'ervandew/supertab'
 Plugin 'magic-dot-files/TagHighlight'
