@@ -45,10 +45,12 @@ Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
 
-" Plugin 'xolox/vim-misc'
-" Plugin 'xolox/vim-lua-ftplugin'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-lua-ftplugin'
+Plugin 'xolox/vim-lua-inspect'
 
 " Plugin 'Valloric/YouCompleteMe'
+Plugin 'davidhalter/jedi-vim'
 if has('gui_running')
     Plugin 'Shougo/neocomplete.vim'
 endif
@@ -63,6 +65,8 @@ Plugin 'magic-dot-files/TagHighlight'
 Plugin 'kien/ctrlp.vim'
 Plugin 'gilligan/vim-lldb'
 Plugin 'joonty/vdebug'
+
+Plugin 'jiangmiao/auto-pairs'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'The-NERD-tree'
@@ -107,7 +111,8 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 syntax on
-set nu
+" set nu
+set relativenumber
 set history=50 " default = 20, set history? to show" futile, why?
 
 " { some languages set these indents
@@ -340,7 +345,9 @@ if has("gui_running")
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    " autocmd FileType python setlocal omnifunc=python3complete#Complete
+    autocmd FileType python setlocal omnifunc=jedi#completions
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
     " Enable heavy omni completion.
@@ -433,8 +440,13 @@ endif
 " for cscope }
 "
 
+" indent_guides
+let g:indent_guides_enable_on_vim_startup = 1
 
 " 定义快捷键到行首和行尾
 " start, end
 nmap <Leader>s 0
 nmap <Leader>e $
+
+" Disable (toggle to passive mode) the Syntastic Plugin when in tex files
+autocmd FileType tex :SyntasticToggleMode
