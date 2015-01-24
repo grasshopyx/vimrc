@@ -450,3 +450,15 @@ nmap <Leader>e $
 
 " Disable (toggle to passive mode) the Syntastic Plugin when in tex files
 autocmd FileType tex :SyntasticToggleMode
+
+" for vim-jedi actually {
+let g:neocomplete#enable_auto_select = 0
+let g:jedi#popup_select_first=0
+set completeopt=longest,menuone
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_on_dot = 0
+if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\)\w*'
+" }
